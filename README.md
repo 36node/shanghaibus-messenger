@@ -72,11 +72,13 @@ client.onInvalidLog(log => {
 
 在 RDB_DATA 类型的日志中，按 command 可分为:
 
-VEHICLE_LOGIN: 车辆登入
-VEHICLE_LOGOUT: 车辆登出
-HEARTBEAT: 心跳
-REALTIME_REPORT: 实时数据上报
-REISSUE_REPORT: 数据补发
+| 类型            | 说明         |
+| :-------------- | :----------- |
+| VEHICLE_LOGIN   | 车辆登入     |
+| VEHICLE_LOGOUT  | 车辆登出     |
+| HEARTBEAT       | 心跳         |
+| REALTIME_REPORT | 实时数据上报 |
+| REISSUE_REPORT  | 数据补发     |
 
 ### record 格式
 
@@ -104,8 +106,8 @@ REISSUE_REPORT: 数据补发
   level: number, // 日志级别
   time: number, // 日志产生时间，unix时间戳
   msg: string, // 日志信息 "handle rdb data", "request error", "session closed" 等
-  request: object?, // 日志的信息，可选
-  error: object?, // 错误信息, 可选
+  request?: object, // 日志的信息，可选
+  error?: object, // 错误信息, 可选
 }
 ```
 
