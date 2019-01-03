@@ -18,11 +18,14 @@
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.mjs",
   "scripts": {
+    "start:client": "babel-node bin/client.js",
+    "kafka-push": "babel-node bin/kafka-push.js",
     "build": "microbundle build",
     "format": "prettier --trailing-comma es5 --write 'src/**/*.js'",
     "lint": "eslint src",
     "release": "standard-version && git push --follow-tags origin master",
-    "test": "jest --silent"
+    "test": "jest --silent",
+    "test-no-silent": "jest"
   },
   "commitlint": {
     "extends": [
@@ -45,13 +48,21 @@
       "git add"
     ]
   },
+  "dependencies": {
+    "ajv": "^6.5.4",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "node-rdkafka": "^2.4.2"
+  },
   "devDependencies": {
     "@36node/babel": "^0.2.2",
     "@36node/eslint-config": "^0.3.4",
     "@commitlint/cli": "^6.1.0",
     "@commitlint/config-conventional": "^6.1.0",
+    "@types/lodash": "^4.14.116",
     "husky": "^1.0.0-rc.13",
     "jest": "20.0.4",
+    "line-by-line": "^0.1.6",
     "lint-staged": "^7.2.0",
     "microbundle": "^0.6.0",
     "prettier": "^1.13.7",

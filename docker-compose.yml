@@ -1,0 +1,25 @@
+version: "2"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    hostname: kafka
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: 9092
+      # - LOG4J_ROOTLOGGER=INFO, stdout
+      # - LOG4J_LOGGER_KAFKA=INFO,stdout
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  kafkaweb:
+    image: sourcelaborg/kafka-webview:latest
+    ports:
+      - "8080:8080"
