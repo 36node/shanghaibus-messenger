@@ -30,7 +30,6 @@ export function parseRecord(vin, body) {
     switch (item.type) {
       case "VEHICLE": {
         record.vehicle = {
-          ...record,
           ...pick(item, [
             "status",
             "chargeStatus",
