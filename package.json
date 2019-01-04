@@ -1,5 +1,5 @@
 {
-  "name": "shanghaibus-messenger",
+  "name": "@36node/shanghaibus-messenger",
   "version": "0.0.0",
   "description": "A module boilerplate for nodejs and web.",
   "repository": {
@@ -18,6 +18,7 @@
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.mjs",
   "scripts": {
+    "preinstall": "bin/preinstall.sh",
     "start:client": "babel-node bin/client.js",
     "kafka-push": "babel-node bin/kafka-push.js",
     "build": "microbundle build",
