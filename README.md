@@ -1,4 +1,4 @@
-# shanghaibus-messenger
+# @36node/shanghaibus-messenger
 
 基于 kafka 的消息接收 clinet
 
@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-yarn add shanghaibus-messenger
+yarn add @36node/shanghaibus-messenger
 ```
 
 ## 使用
