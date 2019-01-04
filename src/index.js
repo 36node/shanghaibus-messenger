@@ -17,12 +17,15 @@ export default class Messenger {
       })
       .on("data", data => {
         const log = handleMessage(data);
+
+        if (!log) return;
+
         const { type } = log;
 
         const handler = this.events[type];
 
         // 有处理函数
-        if (handler && log) {
+        if (handler) {
           handler(log);
         }
       });
