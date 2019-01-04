@@ -209,14 +209,7 @@ function printLog(log) {
   console.log(JSON.stringify(log, null, 2));
 }
 
-describe("Test", function() {
-  test("discard log", () => {
-    const log = handleMessage(invalidLog);
-    printLog(log);
-  });
-});
-
-xdescribe("Test parser", function() {
+describe("Test parser", function() {
   test("login log", () => {
     const parsedLog = handleMessage(loginLog);
     printLog(parsedLog);
@@ -280,6 +273,11 @@ xdescribe("Test parser", function() {
   test("invalid log", () => {
     const parsedLog = handleMessage(invalidLog);
     printLog(parsedLog);
-    expect(parsedLog.type).toBe("INVALID_LOG");
+    expect(parsedLog).toBe(undefined);
+  });
+  test("discard log", () => {
+    const log = handleMessage(discardLog);
+    printLog(log);
+    expect(log).toBe(undefined);
   });
 });
