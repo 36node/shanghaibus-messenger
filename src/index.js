@@ -22,7 +22,7 @@ export default class Messenger {
         const handler = this.events[type];
 
         // 有处理函数
-        if (handler) {
+        if (handler && log) {
           handler(log);
         }
       });

@@ -16,7 +16,10 @@ const ajv = new Ajv();
 function validateLog(message) {
   const valid = ajv.validate(logSchema, message);
   if (!valid) {
-    throw ajv.errors;
+    const error = new Error("LogSchemaError");
+    error.name = "LogSchemaError";
+    error.ajv = ajv.errors;
+    throw error;
   }
 }
 
@@ -247,7 +250,18 @@ export function handleMessage(data) {
     finalLog.reportedAt = moment(time).toISOString();
     return finalLog;
   } catch (error) {
-    // console.log(error);
+    // console.log(error.name);
+
+    // json 解析错误，直接抛弃日志
+    if (error.name === "SyntaxError") {
+      return;
+    }
+
+    // 不符合 logSchema的 也直接抛弃日志
+    if (error.name === "LogSchemaError") {
+      return;
+    }
+
     return {
       type: "INVALID_LOG",
       payload: data.value ? data.value.toString() : data,

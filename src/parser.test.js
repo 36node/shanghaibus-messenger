@@ -36,7 +36,7 @@ const nonsupportLog = makeKafkaLog(
   '{"level":40,"time":1540902953648,"msg":"handle rdb data"}'
 );
 
-const invalidLog = makeKafkaLog('{"level":abc}');
+const invalidLog = makeKafkaLog('{"level":"abc"}');
 
 const recordWithAlarms = makeKafkaLog(
   JSON.stringify({
@@ -201,11 +201,22 @@ const heatbeatLog = makeKafkaLog(
   '{"level":30,"time":1540902956963,"msg":"handle rdb data","pid":17,"hostname":"d35202af7c8b-shanghaibus-v0-32960-1","session":"wQXtl0Ja-Y","seq":73,"cost":0,"origin":"232307fe4c5a595442474257584a31303134323135010000d3","request":{"command":"HEARTBEAT","flag":"COMMAND","vin":"LZYTBGBWXJ1014215","encrypt":"NONE","length":0,"body":{}},"response":"232307014c5a595442474257584a313031343231350100002c","v":1}'
 );
 
+const discardLog = makeKafkaLog(
+  '{"log":"  Error: read ECONNRESET\n","stream":"stderr","@timestamp":"2018-11-11T08:54:57.509","host":"304e08829f92-wali-logpilot-1","index":"TBOX","topic":"TBOX","@target":"TBOX","docker_app":"Shanghaibus-v0","docker_container":"Shanghaibus-v0_bus32960_3","docker_service":"bus32960"}'
+);
+
 function printLog(log) {
   console.log(JSON.stringify(log, null, 2));
 }
 
-describe("Test parser", function() {
+describe("Test", function() {
+  test("discard log", () => {
+    const log = handleMessage(invalidLog);
+    printLog(log);
+  });
+});
+
+xdescribe("Test parser", function() {
   test("login log", () => {
     const parsedLog = handleMessage(loginLog);
     printLog(parsedLog);
