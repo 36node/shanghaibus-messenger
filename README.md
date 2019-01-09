@@ -86,6 +86,8 @@ client.onInvalidLog(log => {
 
 ```typescript
 {
+  id:string, // 车辆vin
+  at:string, // 信息采集时间
   vehicle?: object, // 整车数据, 具体数据内容见下原始日志格式说明
   montors?: [object], // 电机数据, 具体数据内容见下原始日志格式说明
   extreme?: object, // 极值数据, 具体数据内容见下原始日志格式说明
