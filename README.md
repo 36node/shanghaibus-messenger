@@ -51,6 +51,8 @@ client.onInvalidLog(log => {
 
 ```typescript
 {
+
+  recordId?: string, // 由原始日志的 session + seq 组成， 对于 RDB_DATA 类型的日志才有，其他类型的日志没有这条记录
   type: string, // 日志类型
   payload: object, // 日志的内容, 对于 REALTIME_REPORT, REISSUE_REPORT, payload 为 record
   vin?: string, // 车辆vin码， 只在 RDB_DATA 类型日志中存在
@@ -110,6 +112,8 @@ client.onInvalidLog(log => {
   msg: string, // 日志信息 "handle rdb data", "request error", "session closed" 等
   request?: object, // 日志的信息，可选
   error?: object, // 错误信息, 可选
+  session?: string, // 终端的session
+  seq?: string, // 当前session下的消息编号
 }
 ```
 

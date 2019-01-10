@@ -223,7 +223,7 @@ export function handleMessage(data) {
     }
     const logObject = JSON.parse(log);
     validateLog(logObject);
-    const { level, time } = logObject;
+    const { level, time, session, seq } = logObject;
 
     let finalLog = {};
 
@@ -247,6 +247,10 @@ export function handleMessage(data) {
     }
 
     finalLog.reportedAt = moment(time).toISOString();
+
+    if (session && seq !== undefined) {
+      finalLog.recordId = session + "_" + seq;
+    }
     return finalLog;
   } catch (error) {
     // console.log(error.name);

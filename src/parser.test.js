@@ -216,6 +216,7 @@ describe("Test parser", function() {
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("VEHICLE_LOGIN");
     expect(parsedLog.vin).toBe("LZYTBGCW4J1036497");
+    expect(parsedLog.recordId).toBe("5TpAsE4dik_0");
   });
 
   test("logout log", () => {
@@ -224,6 +225,7 @@ describe("Test parser", function() {
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("VEHICLE_LOGOUT");
     expect(parsedLog.vin).toBe("LZYTAGBW0G1042536");
+    expect(parsedLog.recordId).toBe("z2-NYoZCXXc_749553");
   });
 
   test("heartbeat log", () => {
@@ -232,12 +234,14 @@ describe("Test parser", function() {
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("HEARTBEAT");
     expect(parsedLog.vin).toBe("LZYTBGBWXJ1014215");
+    expect(parsedLog.recordId).toBe("wQXtl0Ja-Y_73");
   });
 
   test("alarm parse", () => {
     const parsedLog = handleMessage(recordWithAlarms);
     printLog(parsedLog);
     expect(parsedLog.payload.alarms.length).toBe(2);
+    expect(parsedLog.recordId).toBe("PBUh3XpG4yo_36");
   });
 
   test("record log", () => {
@@ -247,6 +251,7 @@ describe("Test parser", function() {
     expect(parsedLog.command).toBe("REALTIME_REPORT");
     expect(parsedLog.vin).toBe("LSFD03201JC001649");
     expect(parsedLog.payload.id).toBe("LSFD03201JC001649");
+    expect(parsedLog.recordId).toBe("dj4Of2L6XrT_22");
   });
 
   test("reissue report", () => {
@@ -256,6 +261,7 @@ describe("Test parser", function() {
     expect(parsedLog.payload.adas.length).toBe(10);
     expect(parsedLog.command).toBe("REISSUE_REPORT");
     expect(parsedLog.vin).toBe("LZYTBGBW3J1014217");
+    expect(parsedLog.recordId).toBe("XFajAofoZIP_20");
   });
 
   test("request error", () => {
