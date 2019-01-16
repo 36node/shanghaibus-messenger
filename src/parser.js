@@ -6,6 +6,7 @@ import { logSchema, rdbDataSchema } from "./schemas";
 import { pick, uniq } from "lodash";
 import { ALARM_FLAGS } from "./constants";
 import moment from "moment";
+import { isNil } from "lodash";
 
 const ajv = new Ajv();
 
@@ -261,19 +262,19 @@ export function handleMessage(kafkaData) {
       finalLog.recordId = session + "_" + seq;
     }
 
-    if (cost) {
+    if (!isNil(cost)) {
       finalLog.cost = cost;
     }
 
-    if (data) {
+    if (!isNil(data)) {
       finalLog.data = data;
     }
 
-    if (partial) {
+    if (!isNil(partial)) {
       finalLog.partial = partial;
     }
 
-    if (origin) {
+    if (!isNil(origin)) {
       finalLog.origin = origin;
     }
 
