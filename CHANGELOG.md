@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/36node/shanghaibus-messenger/compare/v0.3.0...v0.3.1) (2019-01-16)
+
+
+### Bug Fixes
+
+* cost and partial maybe false or 0 ([f163b1d](https://github.com/36node/shanghaibus-messenger/commit/f163b1d))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/36node/shanghaibus-messenger/compare/v0.2.3...v0.3.0) (2019-01-16)
 
