@@ -6,7 +6,7 @@ import { logSchema, rdbDataSchema } from "./schemas";
 import { pick, uniq } from "lodash";
 import { ALARM_FLAGS } from "./constants";
 import moment from "moment";
-import { isNil } from "lodash";
+import { isNil, padStart } from "lodash";
 
 const ajv = new Ajv();
 
@@ -87,9 +87,16 @@ export function parseRecord(vin, body) {
 
           // 解析为警报码
           codes.push(
-            ...tags.map(t =>
-              (ALARM_FLAGS[t] ? ALARM_FLAGS[t][maxLevel - 1] : -1).toString(16)
-            )
+            ...tags.map(t => {
+              const defaultCode =
+                "000000" + padStart(maxLevel.toString(16), 2, "0");
+              if (!ALARM_FLAGS[t]) return defaultCode;
+
+              const code = ALARM_FLAGS[t][maxLevel - 1];
+              if (!code) return defaultCode;
+
+              return code.toString(16);
+            })
           );
         }
 
@@ -101,12 +108,18 @@ export function parseRecord(vin, body) {
           otherList = [],
         } = item;
 
-        [ressList, mortorList, engineList, otherList].forEach(l => {
-          codes.push(
-            ...l.map(a =>
-              ((a.type << 24) + (a.code << 8) + a.level).toString(16)
-            )
+        const toCode = (alarm = {}) => {
+          const { type = 0, code = 0, level = 1 } = alarm;
+
+          return (
+            padStart(type.toString(16), 2, "0") +
+            padStart(code.toString(16), 4, "0") +
+            padStart(level.toString(16), 2, "0")
           );
+        };
+
+        [ressList, mortorList, engineList, otherList].forEach(l => {
+          codes.push(...l.map(a => toCode(a)));
         });
 
         record.alarms = uniq(codes);
