@@ -17,7 +17,6 @@ export default class Messenger {
       })
       .on("data", data => {
         const log = handleMessage(data);
-
         if (!log) return;
 
         const { type } = log;

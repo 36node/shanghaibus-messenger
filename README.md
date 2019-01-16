@@ -53,6 +53,10 @@ client.onInvalidLog(log => {
 {
 
   recordId?: string, // 由原始日志的 session + seq 组成， 对于 RDB_DATA 类型的日志才有，其他类型的日志没有这条记录
+  cost?: number, // 解析日志的耗时
+  data?: string, // 原始二进制日志内容(二进制字符串)
+  origin?: string,  // 二进制字符串
+  partial?: boolean, // 是否完全
   type: string, // 日志类型
   payload: object, // 日志的内容, 对于 REALTIME_REPORT, REISSUE_REPORT, payload 为 record
   vin?: string, // 车辆vin码， 只在 RDB_DATA 类型日志中存在
@@ -162,7 +166,7 @@ request body 格式说明:
 | 登入流水号             | sn          | integer         | 车载终端每登入一次登入流水号自动加 1，从 1 开始循环累加，最大值 65531，循环周期为天 |
 | ICCID                  | iccid       | string          | SIM 卡 ICCID 号（ICCID 应为终端从 SIM 卡获取的值，不应该人为填写或修改）            |
 | 可充电储能子系统数     | subSysNm    | integer         | 可充电储能子系统数 n，有效值范围：0~250                                             |
-| 可充电储能系统编码长度 | subSysNmLen | integer         | 可充电储能系统编码长度 m，有效值范围：0~50，“0”表示不上传该编码                   |
+| 可充电储能系统编码长度 | subSysNmLen | integer         | 可充电储能系统编码长度 m，有效值范围：0~50，“0”表示不上传该编码                     |
 | 可充电储能系统编码     | subSysSn    | [string]        | 可充电储能系统编码宜为终端从车辆获取的值                                            |
 
 #### 1.2 车辆登出 (command=VEHICLE_LOGOUT)
@@ -847,27 +851,27 @@ const {
 
 ##### 1.4.1 拓展协议 ADAS 说明
 
-| 字段             | 数据内容                 | 类型    | 有效值范围                 | 分辨率     | 其他                                                                           |
-| :--------------- | :----------------------- | :------ | :------------------------- | :--------- | :----------------------------------------------------------------------------- |
+| 字段             | 数据内容                 | 类型    | 有效值范围                 | 分辨率     | 其他                                                                     |
+| :--------------- | :----------------------- | :------ | :------------------------- | :--------- | :----------------------------------------------------------------------- |
 | accPedal         | 加速踏板行程             | integer | 0~100(表示 0%~100%)        | 1%         |
 | brake            | 制动踏板                 | integer | 0~100(表示 0%~100%)        | 1%         | “0”表示制动关状态；在无具体值的情况下，用“0x65”即“101”表示制动有效状态。 |
 | speed            | 车速                     | float   | 0~2200(表示 0km/h~220km/h) | 0.1km/h    |
 | totalCurrent     | 总电流                   | float   | 0~20000(表示-1000A~1000A)  | 0.1A       |
 | overspeed        | 超速值                   | integer | 0~7                        | 5km/h      |
-| lateralDistance  | 前方障碍物横向相对距离   | float   | -12M~12M                   | 0.1M/bit   | 车辆左侧为负，车辆右侧为正                                                     |
+| lateralDistance  | 前方障碍物横向相对距离   | float   | -12M~12M                   | 0.1M/bit   | 车辆左侧为负，车辆右侧为正                                               |
 | verticalDistance | 前方障碍物相对纵向距离   | float   | 0M~250M                    | 0.1M/bit   |
 | relativeVelocity | 车辆前方障碍物相对速度   | float   | -50~50（m/s）              | 0.1m/s/bit |
-| buzzerWarning    | 蜂鸣器预警               | integer |                            |            | 0001 有效，其他无效                                                            |
-| wheelWarning     | 方向盘震动器预警         | integer |                            |            | 0001 有效，其他无效                                                            |
-| cWarning         | 前方碰撞预警             | integer |                            |            | 01:有，00:无                                                                   |
-| lWarning         | 左车道偏离预警           | integer |                            |            | 01:有，00:无                                                                   |
-| rWarning         | 右车道偏离预警           | integer |                            |            | 01:有，00:无                                                                   |
-| pWarning         | 行人碰撞预警             | integer |                            |            | 01:有，00:无                                                                   |
-| cmcslevel        | 碰撞缓解制动系统预警等级 | integer |                            |            | 00:无效，01：一级预警；10：二级预警                                            |
-| cmcs             | 碰撞缓解制动系统状态     | integer |                            |            | 00:不显示；01:CMCS 关闭；10：CMSC 故障，其他无效                               |
-| crbs             | 碰撞缓解制动系统开关状态 | integer |                            |            | 00:无，01：有                                                                  |
-| reserve          | 保留                     | integer |                            |            | 保留                                                                           |
-| obstacleType     | 障碍物类型               | integer |                            |            | 0:无，1：人，2：车；15：其他                                                   |
+| buzzerWarning    | 蜂鸣器预警               | integer |                            |            | 0001 有效，其他无效                                                      |
+| wheelWarning     | 方向盘震动器预警         | integer |                            |            | 0001 有效，其他无效                                                      |
+| cWarning         | 前方碰撞预警             | integer |                            |            | 01:有，00:无                                                             |
+| lWarning         | 左车道偏离预警           | integer |                            |            | 01:有，00:无                                                             |
+| rWarning         | 右车道偏离预警           | integer |                            |            | 01:有，00:无                                                             |
+| pWarning         | 行人碰撞预警             | integer |                            |            | 01:有，00:无                                                             |
+| cmcslevel        | 碰撞缓解制动系统预警等级 | integer |                            |            | 00:无效，01：一级预警；10：二级预警                                      |
+| cmcs             | 碰撞缓解制动系统状态     | integer |                            |            | 00:不显示；01:CMCS 关闭；10：CMSC 故障，其他无效                         |
+| crbs             | 碰撞缓解制动系统开关状态 | integer |                            |            | 00:无，01：有                                                            |
+| reserve          | 保留                     | integer |                            |            | 保留                                                                     |
+| obstacleType     | 障碍物类型               | integer |                            |            | 0:无，1：人，2：车；15：其他                                             |
 
 #### 1.5 心跳(command=HEARTBEAT)
 

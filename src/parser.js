@@ -212,9 +212,9 @@ function handleInfo(log) {
   }
 }
 
-export function handleMessage(data) {
+export function handleMessage(kafkaData) {
   try {
-    const message = JSON.parse(data.value.toString()) || {};
+    const message = JSON.parse(kafkaData.value.toString()) || {};
     const { log } = message;
     if (!log && typeof log === "string") {
       throw new Error(
@@ -223,7 +223,16 @@ export function handleMessage(data) {
     }
     const logObject = JSON.parse(log);
     validateLog(logObject);
-    const { level, time, session, seq } = logObject;
+    const {
+      level,
+      time,
+      session,
+      seq,
+      cost,
+      data,
+      origin,
+      partial,
+    } = logObject;
 
     let finalLog = {};
 
@@ -251,6 +260,23 @@ export function handleMessage(data) {
     if (session && seq !== undefined) {
       finalLog.recordId = session + "_" + seq;
     }
+
+    if (cost) {
+      finalLog.cost = cost;
+    }
+
+    if (data) {
+      finalLog.data = data;
+    }
+
+    if (partial) {
+      finalLog.partial = partial;
+    }
+
+    if (origin) {
+      finalLog.origin = origin;
+    }
+
     return finalLog;
   } catch (error) {
     // console.log(error.name);
@@ -267,7 +293,7 @@ export function handleMessage(data) {
 
     return {
       type: "INVALID_LOG",
-      payload: data.value ? data.value.toString() : data,
+      payload: kafkaData.value ? kafkaData.value.toString() : kafkaData,
       error: error.toString(),
     };
   }
