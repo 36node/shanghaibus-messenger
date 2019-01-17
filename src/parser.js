@@ -86,14 +86,16 @@ export function parseRecord(vin, body) {
           // 有效的标志位
           const tags = Object.keys(uas).filter(k => uas[k] && uas[k] > 0);
 
+          const level = Math.min(3, maxLevel);
+
           // 解析为警报码
           codes.push(
             ...tags.map(t => {
               const defaultCode =
-                "000000" + padStart(maxLevel.toString(16), 2, "0");
+                "000000" + padStart(level.toString(16), 2, "0");
               if (!ALARM_FLAGS[t]) return defaultCode;
 
-              const code = ALARM_FLAGS[t][maxLevel - 1];
+              const code = ALARM_FLAGS[t][level - 1];
               if (!code) return defaultCode;
 
               return code.toString(16);

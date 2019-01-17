@@ -365,6 +365,156 @@ const withAlarmLog = makeKafkaLog(
   })
 );
 
+const largeMaxLevelLog = makeKafkaLog(
+  JSON.stringify({
+    level: 30,
+    time: 1540902954337,
+    msg: "handle rdb data",
+    pid: 17,
+    hostname: "d35202af7c8b-shanghaibus-v0-32960-1",
+    session: "PBUh3XpG4yo",
+    seq: 36,
+    cost: 0,
+    request: {
+      command: "REALTIME_REPORT",
+      flag: "COMMAND",
+      vin: "LZYTBGCW6J1036646",
+      encrypt: "NONE",
+      length: 127,
+      body: {
+        at: "2019-01-17T08:27:44.000Z",
+        items: [
+          {
+            type: "VEHICLE",
+            status: "ON",
+            chargeStatus: "UNCHARGED",
+            mode: "ELECTRIC",
+            speed: 9,
+            mileage: 10343,
+            voltage: 579,
+            current: 3,
+            soc: 1,
+            dcStatus: "ON",
+            shift: "D",
+            resistance: 38829,
+            aptv: 0,
+            brake: 0,
+          },
+          {
+            type: "MOTOR",
+            count: 1,
+            motors: [
+              {
+                no: 1,
+                status: "GENERATION",
+                controlTemp: 20,
+                speed: 294,
+                torque: 0,
+                temp: 11,
+                voltage: 579,
+                current: 0,
+              },
+            ],
+          },
+          {
+            type: "LOCATION",
+            state: 1,
+            lng: 121.442673,
+            lat: 31.226615,
+          },
+          {
+            type: "EXTREME",
+            maxVoltageSubSysNo: 1,
+            maxVoltageSingNo: 26,
+            maxVoltage: 3.371,
+            minVoltageSubSysNo: 1,
+            minVoltageSingNo: 228,
+            minVoltage: 3.31,
+            maxNtcSubSysNo: 1,
+            maxNtcNo: 32,
+            maxNtc: 16,
+            minNtcSubSysNo: 1,
+            minNtcNo: 13,
+            minNtc: 10,
+          },
+          {
+            type: "ALARM",
+            maxLevel: 51,
+            uas: {
+              ressChargeOver: 0,
+              motorTemp: 1,
+              highVolMuteStatus: 0,
+              motorControlTemp: 0,
+              dcdcStatus: 0,
+              brake: 0,
+              dcdcTemp: 0,
+              insulation: 0,
+              batteryBadConsistency: 0,
+              ressNotMatch: 0,
+              socJump: 0,
+              socOver: 0,
+              batteryLow: 0,
+              batteryOver: 0,
+              socLow: 0,
+              ressVolLow: 0,
+              ressVolOver: 0,
+              batteryTempOver: 0,
+              tempDiff: 0,
+            },
+            ressLen: 0,
+            ressList: [],
+            mortorLen: 0,
+            mortorList: [],
+            engineLen: 0,
+            engineList: [],
+            otherLen: 0,
+            otherList: [],
+          },
+          {
+            type: "CUSTOM_EXT",
+            dataLen: 48,
+            pressure1: 1000,
+            pressure2: 1000,
+            batteryVoltage: 27.5,
+            dcov: 14.9,
+            dcoc: 27.7,
+            dcTemp: 0,
+            acTemp: 0,
+            lftp: 976,
+            lftt: 21,
+            rftp: 956,
+            rftt: 16,
+            lr1tp: 968,
+            lr1tt: 18,
+            lr2tp: 976,
+            lr2tt: 21,
+            rr1tp: 984,
+            rr1tt: 22,
+            rr2tp: 968,
+            rr2tt: 18,
+            cp: 6131.1,
+            totalCharge: 0,
+            totalDischarge: 12432.4,
+            instantPower: 0.1,
+            bpiRes: 38829,
+            bniRes: 38829,
+            apTemp: 0,
+            motorContTemp: 20,
+            airMode: "OFF",
+            airTemp: 16,
+            insideTemp: 7,
+            outsideTemp: 7,
+            middleDoorStatus: "CLOSE",
+            frontDoorStatus: "CLOSE",
+            handbrakeStatus: "OFF",
+            keyPosition: "ON",
+          },
+        ],
+      },
+    },
+  })
+);
+
 function printLog(log) {
   console.log(JSON.stringify(log, null, 2));
 }
@@ -467,5 +617,12 @@ describe("Test parser", function() {
     expect(parsedLog.payload.alarms[0]).toBe("00000003");
     expect(parsedLog.payload.alarms[1]).toBe("ada3a403");
     expect(parsedLog.recordId).toBe("PBUh3XpG4yo_36");
+  });
+
+  test("large alarmLevel log", () => {
+    const parsedLog = handleMessage(largeMaxLevelLog);
+    printLog(parsedLog);
+    expect(parsedLog.payload.alarms.length).toBe(1);
+    expect(parsedLog.payload.alarms[0]).toBe("10140602");
   });
 });
