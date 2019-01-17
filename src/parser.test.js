@@ -1,4 +1,5 @@
 import { handleMessage } from "./parser";
+import { padStart } from "lodash";
 const makeKafkaLog = msg => {
   return {
     value: Buffer.from(
@@ -209,6 +210,161 @@ const discardLog = makeKafkaLog(
   '{"log":"  Error: read ECONNRESET\n","stream":"stderr","@timestamp":"2018-11-11T08:54:57.509","host":"304e08829f92-wali-logpilot-1","index":"TBOX","topic":"TBOX","@target":"TBOX","docker_app":"Shanghaibus-v0","docker_container":"Shanghaibus-v0_bus32960_3","docker_service":"bus32960"}'
 );
 
+const withAlarmLog = makeKafkaLog(
+  JSON.stringify({
+    level: 30,
+    time: 1540902954337,
+    msg: "handle rdb data",
+    pid: 17,
+    hostname: "d35202af7c8b-shanghaibus-v0-32960-1",
+    session: "PBUh3XpG4yo",
+    seq: 36,
+    cost: 0,
+    request: {
+      command: "REALTIME_REPORT",
+      flag: "COMMAND",
+      vin: "LZYTBGCW3J1044624",
+      encrypt: "NONE",
+      length: 131,
+      body: {
+        at: "2019-01-16T08:58:59.000Z",
+        items: [
+          {
+            type: "VEHICLE",
+            status: "ON",
+            chargeStatus: "UNCHARGED",
+            mode: "ELECTRIC",
+            speed: 29,
+            mileage: 4689,
+            voltage: 562,
+            current: 172.4,
+            soc: 0.55,
+            dcStatus: "ON",
+            shift: "D",
+            resistance: 13815,
+            aptv: 0.3,
+            brake: 0,
+          },
+          {
+            type: "MOTOR",
+            count: 1,
+            motors: [
+              {
+                no: 1,
+                status: "CONSUMPTION",
+                controlTemp: 56,
+                speed: 933,
+                torque: 986,
+                temp: 68,
+                voltage: 559,
+                current: 178,
+              },
+            ],
+          },
+          {
+            type: "LOCATION",
+            state: 0,
+            lng: 121.517465,
+            lat: 31.318744,
+          },
+          {
+            type: "EXTREME",
+            maxVoltageSubSysNo: 1,
+            maxVoltageSingNo: 187,
+            maxVoltage: 3.265,
+            minVoltageSubSysNo: 1,
+            minVoltageSingNo: 221,
+            minVoltage: 3.248,
+            maxNtcSubSysNo: 1,
+            maxNtcNo: 32,
+            maxNtc: 20,
+            minNtcSubSysNo: 1,
+            minNtcNo: 19,
+            minNtc: 12,
+          },
+          {
+            type: "ALARM",
+            maxLevel: 3,
+            uas: {
+              ressChargeOver: 0,
+              motorTemp: 0,
+              highVolMuteStatus: 0,
+              motorControlTemp: 0,
+              dcdcStatus: 0,
+              brake: 0,
+              dcdcTemp: 0,
+              insulation: 0,
+              batteryBadConsistency: 0,
+              ressNotMatch: 0,
+              socJump: 1,
+              socOver: 0,
+              batteryLow: 0,
+              batteryOver: 0,
+              socLow: 0,
+              ressVolLow: 0,
+              ressVolOver: 0,
+              batteryTempOver: 0,
+              tempDiff: 0,
+            },
+            ressLen: 0,
+            ressList: [],
+            mortorLen: 0,
+            mortorList: [],
+            engineLen: 0,
+            engineList: [],
+            otherLen: 1,
+            otherList: [
+              {
+                type: 173,
+                code: 41892,
+                level: 3,
+              },
+            ],
+          },
+          {
+            type: "CUSTOM_EXT",
+            dataLen: 48,
+            pressure1: 992,
+            pressure2: 992,
+            batteryVoltage: 27.5,
+            dcov: 27.8,
+            dcoc: 28.1,
+            dcTemp: 56,
+            acTemp: 56,
+            lftp: 1012,
+            lftt: 22,
+            rftp: 4,
+            rftt: 21,
+            lr1tp: 4,
+            lr1tt: 22,
+            lr2tp: 8,
+            lr2tt: 26,
+            rr1tp: 4,
+            rr1tt: 24,
+            rr2tp: null,
+            rr2tt: 21,
+            cp: 0,
+            totalCharge: 0,
+            totalDischarge: 5951.1,
+            instantPower: 3.5,
+            bpiRes: 2500,
+            bniRes: 2500,
+            apTemp: 0,
+            motorContTemp: 56,
+            airTemp: 18,
+            insideTemp: 8,
+            outsideTemp: 19,
+            middleDoorStatus: "CLOSE",
+            frontDoorStatus: "CLOSE",
+            handbrakeStatus: "OFF",
+            keyPosition: "ON",
+          },
+        ],
+      },
+    },
+  })
+);
+
 function printLog(log) {
   console.log(JSON.stringify(log, null, 2));
 }
@@ -302,5 +458,14 @@ describe("Test parser", function() {
     expect(parsedLog.origin).toBe(
       "232302fe4c4a4d36474344423847415330313136350102461301100b17210101030100000012f2fa156c277f37011e1ce2001e02010102534e204cae7e156c27100500073d35f501dee6ca0601a50ce001790cc1010b3e01423507000000000000000000080101000a271000ff0001c80cc60cc60cc70cc70cc60cc70cc80cc70cc60cc60cc70cc60cc70cc70cc80cc70cc70cc70cc80cc80cc60cc70cc70cc70cc70cc70cc80cc70cc70cc70cc80cc70cc60cc70cc80cc80cc70cc70cc80cc80cc80cc70cc80cc80cc60cc70cc80cc70cc60cc60cc70cc60cc70cc80cc80cc70cc70cc70cc70cc70cc70cc70cc80cc70cc70cc70cc80cc80cc60cc70cc70cc70cc10cc20cc20cc10cc10cc20cc30cc20cc10cc10cc20cc20cc10cc10cc20cc10cc20cc20cc30cc20cc10cc20cc20cc10cc10cc20cc30cc20cc20cc20cc30cc20cc20cc20cc20cc20cc20cc20cc20cc10cc20cc30cc40cc30cc10cc20cc20cc20cc10cc20cc20cd60cdc0cd70cd30cd50cd60cd70cd20cd40cd10cd60cd10cd30cd40cd50cd20cd50cda0cd50cd10cd30cd10cd70cd20cd40cd60cd70cd20cd60cdb0cd70cd20cd40cd10cd80cd20cd50cd50cd80cd20cd60ce00cd70cd20cd50cd20cd60cd20cd40cd90cd70cd20cd50cd60cd80cd30cd60cd30cd80cd30cd60cd80cd90cd40cd70cd90cd60cd40cd70cd00cd50cd10cd30cd90cd60cd10cd309010100423c3c3c3c3d3d3c3d3c3d3e3d3b3d3c3c3c3c363636353636363736363636353635353636353636353535353635353635353635353635353635353636353635353635d00014000000000000000000000000000000000010f2652d232302fe4c4a4d36474344423847415330313136350101241301100b17210101030100000012f2fa156c277f37011e1ce2001e02010102534e204cae7e156c27100500073d35f501dee6ca0601190cda01370cd0010b3e01423507000000000000000000080101000a271000ff00c9370cd60cd50cd10cd40cd10cd50cd10cd30cd80cd50cd00cd10cd70cd40cd00cd30cd10cd70cd10cd30cd70cd60cd10cd50cda0cd50cd10cd40cd00cd40cd00cd40cd70cd40cd10cd30cd50cd50cd10cd20cd00cd50cd10cd30cd80cd70cd10cd40cd60cd40cd10cd40cd00cd20cd009010100423c3c3c3c3d3d3c3d3c3d3e3d3b3d3c3c3c3c363636353636363736363636353635353636353636353535353635353635353635353635353635353636353635353635d00014000000000000000000000000000000000010f26559232302fe4c4a4d36474344423247415330313136320102461301100b17210101030101e0001174e8150f234934010e125600000201010152651a4ff677150f23c80501073ccb2601deba3c06012b0ca4015d0c7c010b4001253607000000000000000000080101000a28f000ff0001c80c9d0c970ca00c9c0c910c980ca20c9c0c980c950ca00c9a0ca00c970ca20c9a0c960c980ca40c9d0c8e0c960ca10c9a0c9f0c970ca20c9c0c900c990ca40c9e0c960c980ca30c9c0ca10c980ca20c9a0c990c9a0ca40c9d0c8b0c950ca10c9c0c9e0c950c9f0c970c8b0c970ca20c9b0c930c940ca00c9a0c9e0c940ca00c990c950c980ca10c9a0c8d0c930c9f0c960c930c8d0c970c8e0c850c8e0c990c910c8b0c8b0c960c8f0c940c8b0c950c8c0c8a0c8d0c9a0c920c7c0c8a0c950c8c0c910c8c0c940c8d0c7e0c8c0c970c910c8d0c890c950c8d0c940c8b0c950c8f0c8e0c8d0c970c8f0c800c8b0c950c8e0c920c8f0c960c8f0c810c8c0c950c910c8e0c8c0c950c8e0c910c8a0c940c8d0c8a0c8b0c950c8f0c8a0c8a0c940c8e0c8f0c870c910c8a0c880c8c0c950c8c0c860c870c930c8d0c940c8f0c960c8f0c850c8a0c970c910c820c8a0c920c890c930c900c960c920c850c8f0c980c930c910c8e0c960c900c940c8c0c950c8e0c8e0c920c970c900c860c8d0c970c930c960c910c990c930c890c900c9b0c9609010100423d3e3e3f403f3e403e3f403f3d3f3e3e3e3e38"
     );
+  });
+
+  test("error alarms", () => {
+    const parsedLog = handleMessage(withAlarmLog);
+    printLog(parsedLog);
+    expect(parsedLog.payload.alarms.length).toBe(2);
+    expect(parsedLog.payload.alarms[0]).toBe("00000003");
+    expect(parsedLog.payload.alarms[1]).toBe("ada3a403");
+    expect(parsedLog.recordId).toBe("PBUh3XpG4yo_36");
   });
 });

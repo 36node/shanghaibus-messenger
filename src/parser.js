@@ -6,7 +6,7 @@ import { logSchema, rdbDataSchema } from "./schemas";
 import { pick, uniq } from "lodash";
 import { ALARM_FLAGS } from "./constants";
 import moment from "moment";
-import { isNil } from "lodash";
+import { isNil, padStart } from "lodash";
 
 const ajv = new Ajv();
 
@@ -81,15 +81,23 @@ export function parseRecord(vin, body) {
         const codes = [];
         record.alarmLevel = maxLevel;
         // 处理uas的警报
+        // uas 解析出的警报等级不是根据 maxLevel 定义的，而是 找出当前标志位对应的警报码，再由警报表中查询出来等级
         if (maxLevel > 0) {
           // 有效的标志位
           const tags = Object.keys(uas).filter(k => uas[k] && uas[k] > 0);
 
           // 解析为警报码
           codes.push(
-            ...tags.map(t =>
-              (ALARM_FLAGS[t] ? ALARM_FLAGS[t][maxLevel - 1] : -1).toString(16)
-            )
+            ...tags.map(t => {
+              const defaultCode =
+                "000000" + padStart(maxLevel.toString(16), 2, "0");
+              if (!ALARM_FLAGS[t]) return defaultCode;
+
+              const code = ALARM_FLAGS[t][maxLevel - 1];
+              if (!code) return defaultCode;
+
+              return code.toString(16);
+            })
           );
         }
 
@@ -101,12 +109,18 @@ export function parseRecord(vin, body) {
           otherList = [],
         } = item;
 
-        [ressList, mortorList, engineList, otherList].forEach(l => {
-          codes.push(
-            ...l.map(a =>
-              ((a.type << 24) + (a.code << 8) + a.level).toString(16)
-            )
+        const toCode = (alarm = {}) => {
+          const { type = 0, code = 0, level = 1 } = alarm;
+
+          return (
+            padStart(type.toString(16), 2, "0") +
+            padStart(code.toString(16), 4, "0") +
+            padStart(level.toString(16), 2, "0")
           );
+        };
+
+        [ressList, mortorList, engineList, otherList].forEach(l => {
+          codes.push(...l.map(a => toCode(a)));
         });
 
         record.alarms = uniq(codes);
