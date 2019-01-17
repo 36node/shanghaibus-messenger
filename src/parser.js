@@ -81,6 +81,7 @@ export function parseRecord(vin, body) {
         const codes = [];
         record.alarmLevel = maxLevel;
         // 处理uas的警报
+        // uas 解析出的警报等级不是根据 maxLevel 定义的，而是 找出当前标志位对应的警报码，再由警报表中查询出来等级
         if (maxLevel > 0) {
           // 有效的标志位
           const tags = Object.keys(uas).filter(k => uas[k] && uas[k] > 0);
