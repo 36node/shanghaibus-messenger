@@ -1,4 +1,4 @@
-import { handleMessage } from "./parser";
+import { handleKafkaData } from "./parser";
 import { padStart } from "lodash";
 const makeKafkaLog = msg => {
   return {
@@ -521,7 +521,7 @@ function printLog(log) {
 
 describe("Test parser", function() {
   test("login log", () => {
-    const parsedLog = handleMessage(loginLog);
+    const parsedLog = handleKafkaData(loginLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("VEHICLE_LOGIN");
@@ -530,7 +530,7 @@ describe("Test parser", function() {
   });
 
   test("logout log", () => {
-    const parsedLog = handleMessage(logoutLog);
+    const parsedLog = handleKafkaData(logoutLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("VEHICLE_LOGOUT");
@@ -539,7 +539,7 @@ describe("Test parser", function() {
   });
 
   test("heartbeat log", () => {
-    const parsedLog = handleMessage(heatbeatLog);
+    const parsedLog = handleKafkaData(heatbeatLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("HEARTBEAT");
@@ -548,14 +548,14 @@ describe("Test parser", function() {
   });
 
   test("alarm parse", () => {
-    const parsedLog = handleMessage(recordWithAlarms);
+    const parsedLog = handleKafkaData(recordWithAlarms);
     printLog(parsedLog);
     expect(parsedLog.payload.alarms.length).toBe(2);
     expect(parsedLog.recordId).toBe("PBUh3XpG4yo_36");
   });
 
   test("record log", () => {
-    const parsedLog = handleMessage(recordLog);
+    const parsedLog = handleKafkaData(recordLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.command).toBe("REALTIME_REPORT");
@@ -565,7 +565,7 @@ describe("Test parser", function() {
   });
 
   test("reissue report", () => {
-    const parsedLog = handleMessage(issueReportLog);
+    const parsedLog = handleKafkaData(issueReportLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("RDB_DATA");
     expect(parsedLog.payload.adas.length).toBe(10);
@@ -575,30 +575,30 @@ describe("Test parser", function() {
   });
 
   test("request error", () => {
-    const parsedLog = handleMessage(requestErrorLog);
+    const parsedLog = handleKafkaData(requestErrorLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("REQUEST_ERROR");
   });
 
   test("nonsupport log", () => {
-    const parsedLog = handleMessage(nonsupportLog);
+    const parsedLog = handleKafkaData(nonsupportLog);
     printLog(parsedLog);
     expect(parsedLog.type).toBe("INVALID_LOG");
   });
 
   test("invalid log", () => {
-    const parsedLog = handleMessage(invalidLog);
+    const parsedLog = handleKafkaData(invalidLog);
     printLog(parsedLog);
     expect(parsedLog).toBe(undefined);
   });
   test("discard log", () => {
-    const log = handleMessage(discardLog);
+    const log = handleKafkaData(discardLog);
     printLog(log);
     expect(log).toBe(undefined);
   });
 
   test("log with data", () => {
-    const parsedLog = handleMessage(withDataLog);
+    const parsedLog = handleKafkaData(withDataLog);
     printLog(parsedLog);
     expect(parsedLog.cost).toBe(2);
     expect(parsedLog.partial).toBe(true);
@@ -611,7 +611,7 @@ describe("Test parser", function() {
   });
 
   test("error alarms", () => {
-    const parsedLog = handleMessage(withAlarmLog);
+    const parsedLog = handleKafkaData(withAlarmLog);
     printLog(parsedLog);
     expect(parsedLog.payload.alarms.length).toBe(2);
     expect(parsedLog.payload.alarms[0]).toBe("00000003");
@@ -620,7 +620,7 @@ describe("Test parser", function() {
   });
 
   test("large alarmLevel log", () => {
-    const parsedLog = handleMessage(largeMaxLevelLog);
+    const parsedLog = handleKafkaData(largeMaxLevelLog);
     printLog(parsedLog);
     expect(parsedLog.payload.alarms.length).toBe(1);
     expect(parsedLog.payload.alarms[0]).toBe("10140602");

@@ -51,7 +51,6 @@ client.onInvalidLog(log => {
 
 ```typescript
 {
-
   recordId?: string, // 由原始日志的 session + seq 组成， 对于 RDB_DATA 类型的日志才有，其他类型的日志没有这条记录
   cost?: number, // 解析日志的耗时
   data?: string, // 原始二进制日志内容(二进制字符串)
@@ -63,6 +62,7 @@ client.onInvalidLog(log => {
   command?: string, // 日志的命令， 只在 RDB_RATA 类型日志中存在
   error?: string, // 日志解析时发生的错误，只在 INVALID_LOG 类型中存在
   reportedAt: string, // 日志发送的时间，为 ISO string
+  kafka_message: string, // kafka 传递过来的原始日志
 }
 ```
 
