@@ -229,9 +229,17 @@ function handleInfo(log) {
   }
 }
 
-export function handleMessage(kafkaData) {
+export function handleKafkaData(kafkaData) {
+  const logStr = kafkaData.value.toString() || "";
+  const parsedLog = parseLog(logStr);
+  // 保存原始日志
+  if (parsedLog) parsedLog.kafka_message = logStr;
+  return parsedLog;
+}
+
+export function parseLog(logStr) {
   try {
-    const message = JSON.parse(kafkaData.value.toString()) || {};
+    const message = JSON.parse(logStr) || {};
     const { log } = message;
     if (!log && typeof log === "string") {
       throw new Error(
@@ -310,7 +318,7 @@ export function handleMessage(kafkaData) {
 
     return {
       type: "INVALID_LOG",
-      payload: kafkaData.value ? kafkaData.value.toString() : kafkaData,
+      payload: logStr,
       error: error.toString(),
     };
   }

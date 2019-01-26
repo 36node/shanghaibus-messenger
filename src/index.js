@@ -1,5 +1,7 @@
 import Kafka from "node-rdkafka";
-import { handleMessage } from "./parser";
+import { handleKafkaData } from "./parser";
+
+export { parseLog } from "./parser";
 
 /**
  * Messenger
@@ -16,7 +18,7 @@ export default class Messenger {
         this.consumer.consume();
       })
       .on("data", data => {
-        const log = handleMessage(data);
+        const log = handleKafkaData(data);
         if (!log) return;
 
         const { type } = log;
