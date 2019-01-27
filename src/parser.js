@@ -237,6 +237,10 @@ export function handleKafkaData(kafkaData) {
   return parsedLog;
 }
 
+/**
+ * 解析log字符串
+ * @param {string} logStr
+ */
 export function parseLog(logStr) {
   try {
     const message = JSON.parse(logStr) || {};
@@ -268,13 +272,13 @@ export function parseLog(logStr) {
       case 50:
         finalLog = {
           type: "REQUEST_ERROR",
-          payload: logObject,
+          payload: logStr,
         };
         break;
       default:
         finalLog = {
           type: "INVALID_LOG",
-          payload: logObject,
+          payload: logStr,
           error: "Non support log type!",
         };
         break;

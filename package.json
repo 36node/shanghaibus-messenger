@@ -12,7 +12,8 @@
   },
   "files": [
     "bin",
-    "dist"
+    "dist",
+    "typings"
   ],
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",

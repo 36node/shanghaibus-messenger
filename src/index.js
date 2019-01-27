@@ -70,7 +70,7 @@ export default class Messenger {
   }
 
   /**
-   * 监听
+   * 监听 非法日志
    * @param {(object)=>{}} handler
    */
   onInvalidLog(handler) {
