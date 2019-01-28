@@ -6,7 +6,7 @@ export { parseLog } from "./parser";
 /**
  * Messenger
  */
-export default class Messenger {
+export class Messenger {
   constructor(kafkaConfig = {}, topics = []) {
     this.consumer = new Kafka.KafkaConsumer(kafkaConfig);
     this.consumer.connect();

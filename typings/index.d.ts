@@ -162,7 +162,7 @@ declare module "@36node/shanghaibus-messenger" {
    */
   export function parseLog(logStr: string): ParsedLog<VehicleRecord>;
 
-  export default class Messenger {
+  export class Messenger {
     constructor(kafkaConfig: any, topics: [string]);
 
     /**
