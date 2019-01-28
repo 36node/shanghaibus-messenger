@@ -34,6 +34,7 @@
       "@commitlint/config-conventional"
     ]
   },
+  "typings": "typings/index.d.ts",
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $GIT_PARAMS",
