@@ -141,7 +141,12 @@ declare interface ParsedLog<PayloadType> {
   type: "RDB_DATA" | "REQUEST_ERROR" | "INVALID_LOG"; // 日志类型
   payload: PayloadType; // 日志的内容, 对于 REALTIME_REPORT, REISSUE_REPORT, payload 为 record
   vin?: string; // 车辆vin码， 只在 RDB_DATA 类型日志中存在
-  command?: string; // 日志的命令， 只在 RDB_RATA 类型日志中存在
+  command?:
+    | "VEHICLE_LOGIN"
+    | "VEHICLE_LOGOUT"
+    | "HEARTBEAT"
+    | "REALTIME_REPORT"
+    | "REISSUE_REPORT"; // 日志的命令， 只在 RDB_RATA 类型日志中存在
   error?: string; // 日志解析时发生的错误，只在 INVALID_LOG 类型中存在
   reportedAt: string; // 日志发送的时间，为 ISO string
   kafka_message: string; // kafka 传递过来的原始日志
