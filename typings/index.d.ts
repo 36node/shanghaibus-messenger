@@ -129,7 +129,7 @@ declare interface VehicleRecord {
   extreme?: Extreme; // 极值数据
   alarm?: [string]; // 警报数据
   customExt?: CustomExt; // 自定义数据
-  adas?: ADAS; // 补充协议数据
+  adas?: [ADAS]; // 补充协议数据
 }
 
 declare interface ParsedLog<PayloadType> {
