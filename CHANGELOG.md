@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.6"></a>
+## [0.5.6](https://github.com/36node/shanghaibus-messenger/compare/v0.5.5...v0.5.6) (2019-01-30)
+
+
+### Bug Fixes
+
+* index.d.ts ([89020da](https://github.com/36node/shanghaibus-messenger/commit/89020da))
+
+
+
 <a name="0.5.5"></a>
 ## [0.5.5](https://github.com/36node/shanghaibus-messenger/compare/v0.5.4...v0.5.5) (2019-01-30)
 
