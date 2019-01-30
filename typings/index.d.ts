@@ -2,15 +2,15 @@
  * 整车数据
  */
 declare interface Vehicle {
-  status?: string; // 车辆状态
-  chargeStatus?: string; // 充电状态
-  mode?: string; // 车辆模式
+  status?: "ELECTRIC" | "MIXED" | "FUEL"; // 车辆状态
+  chargeStatus?: "PARK_CHARGING" | "MOVE_CHARGING" | "UNCHARGED" | "COMPETE"; // 充电状态
+  mode?: "ON" | "OFF" | "OTHER"; // 车辆模式
   speed?: number; // 车速 km/h
   mileage?: number; // 总里程 km
   voltage?: number; // 电压 V
   current?: number; // 电流 A
   soc?: number; // soc
-  dcStatus?: string; // dc 状态
+  dcStatus?: "ON" | "OFF"; // dc 状态
   shift?: string; // 车辆档位
   resistance?: number; // 绝缘阻抗 欧姆
   aptv?: number; // 加速踏板开度
@@ -22,7 +22,7 @@ declare interface Vehicle {
  */
 declare interface Motor {
   no: number; // 电机编号
-  status?: string; // 电机状态
+  status?: "CONSUMPTION" | "GENERATION" | "OFF" | "READY"; // 电机状态
   controlTemp?: number; // 电机控制器温度
   speed?: number; // 电机转速
   torque?: number; //驱动电机转矩 牛米
@@ -87,14 +87,14 @@ declare interface CustomExt {
   bniRes?: number;
   apTemp?: number; //气泵扇热器温度
   motorContTemp?: number; // 电机控制器温度
-  airMode?: string; //空调模式
+  airMode?: "WIND" | "OFF" | "REFRIGERATION" | "HEATING" | "ABNORMAL"; //空调模式
   airTemp?: number; //空调设定温度
   insideTemp?: number; //车厢内实际温度
   outsideTemp?: number; //车外温度
-  middleDoorStatus?: string; //中门状态
-  frontDoorStatus?: string; //前门状态
-  handbrakeStatus?: string; //手刹状态
-  keyPosition?: string; //钥匙位置
+  middleDoorStatus?: "CLOSE" | "OPEN" | "ABNORMAL"; //中门状态
+  frontDoorStatus?: "CLOSE" | "OPEN" | "ABNORMAL"; //前门状态
+  handbrakeStatus?: "ON" | "OFF" | "ABNORMAL"; //手刹状态
+  keyPosition?: "OFF" | "ACC" | "ON" | "START"; //钥匙位置
 }
 
 /**
@@ -128,14 +128,8 @@ declare interface VehicleRecord {
   montors?: [Motor]; // 电机数据
   extreme?: Extreme; // 极值数据
   alarm?: [string]; // 警报数据
-  customExt?: Extreme; // 自定义数据
+  customExt?: CustomExt; // 自定义数据
   adas?: ADAS; // 补充协议数据
-}
-
-declare enum LogType {
-  RdbData = "RDB_DATA",
-  RequestError = "REQUEST_ERROR",
-  InvalidLog = "INVALID_LOG",
 }
 
 declare interface ParsedLog<PayloadType> {
@@ -144,7 +138,7 @@ declare interface ParsedLog<PayloadType> {
   data?: string; // 原始二进制日志内容(二进制字符串)
   origin?: string; // 二进制字符串
   partial?: boolean; // 是否完全
-  type: LogType; // 日志类型
+  type: "RDB_DATA" | "REQUEST_ERROR" | "INVALID_LOG"; // 日志类型
   payload: PayloadType; // 日志的内容, 对于 REALTIME_REPORT, REISSUE_REPORT, payload 为 record
   vin?: string; // 车辆vin码， 只在 RDB_DATA 类型日志中存在
   command?: string; // 日志的命令， 只在 RDB_RATA 类型日志中存在
