@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.8"></a>
+## [0.5.8](https://github.com/36node/shanghaibus-messenger/compare/v0.5.7...v0.5.8) (2019-03-07)
+
+
+### Bug Fixes
+
+* handle type ADAS ([#10](https://github.com/36node/shanghaibus-messenger/issues/10)) ([422a728](https://github.com/36node/shanghaibus-messenger/commit/422a728))
+* readme and typedef ([#10](https://github.com/36node/shanghaibus-messenger/issues/10)) ([9d7c3b0](https://github.com/36node/shanghaibus-messenger/commit/9d7c3b0))
+
+
+
 <a name="0.5.7"></a>
 ## [0.5.7](https://github.com/36node/shanghaibus-messenger/compare/v0.5.6...v0.5.7) (2019-02-26)
 
