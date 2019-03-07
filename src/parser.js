@@ -167,7 +167,7 @@ export function parseRecord(vin, body) {
           "middleDoorStatus", // 中门状态", 关闭, 开, 异常
           "frontDoorStatus", // 前门状态", 关闭, 开, 异常
           "handbrakeStatus", // 手刹状态", 松, 刹, 异常
-          "keyStatus", // 钥匙位置
+          "keyPosition", // 钥匙位置
         ]);
         break;
       }
