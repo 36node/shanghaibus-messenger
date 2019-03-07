@@ -173,7 +173,15 @@ export function parseRecord(vin, body) {
       }
       case "TEN_SECONDS": {
         const { datas = [] } = item;
-        record.adas = datas;
+        const { tens = [] } = record;
+        record.tens = [...tens, ...datas];
+
+        break;
+      }
+      case "ADAS": {
+        const { datas = [] } = item;
+        const { adas = [] } = record;
+        record.adas = [...adas, ...datas];
         break;
       }
 
@@ -252,6 +260,7 @@ export function parseLog(logStr) {
     }
     const logObject = JSON.parse(log);
     validateLog(logObject);
+
     const {
       level,
       time,
