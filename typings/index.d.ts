@@ -130,6 +130,7 @@ declare interface VehicleRecord {
   alarm?: [string]; // 警报数据
   customExt?: CustomExt; // 自定义数据
   adas?: [ADAS]; // 补充协议数据
+  tens?: [ADAS]; // 十秒数据
 }
 
 declare interface ParsedLog<PayloadType> {
