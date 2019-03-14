@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/36node/shanghaibus-messenger/compare/v0.5.8...v0.6.0) (2019-03-14)
+
+
+### Features
+
+* use gcoord transform loaction on parse log ([ed92264](https://github.com/36node/shanghaibus-messenger/commit/ed92264))
+
+
+
 <a name="0.5.8"></a>
 ## [0.5.8](https://github.com/36node/shanghaibus-messenger/compare/v0.5.7...v0.5.8) (2019-03-07)
 
