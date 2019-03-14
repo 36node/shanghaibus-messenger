@@ -3033,6 +3033,11 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+gcoord@^0.2.0:
+  version "0.2.0"
+  resolved "http://registry.npm.taobao.org/gcoord/download/gcoord-0.2.0.tgz#aa423966d504b789c764fd10b13bb184df10a693"
+  integrity sha1-qkI5ZtUEt4nHZP0QsTuxhN8QppM=
+
 generic-names@^1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/generic-names/download/generic-names-1.0.3.tgz#2d786a121aee508876796939e8e3bff836c20917"

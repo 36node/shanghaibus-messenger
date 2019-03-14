@@ -636,4 +636,10 @@ describe("Test parser", function() {
     expect(parsedLog.payload.adas.length).toBe(10);
     expect(parsedLog.command).toBe("REISSUE_REPORT");
   });
+
+  test("location transform", () => {
+    const parsedLog = handleKafkaData(largeMaxLevelLog);
+    expect(typeof parsedLog.payload.location.lng).toBe("number");
+    expect(typeof parsedLog.payload.location.lat).toBe("number");
+  });
 });

@@ -97,6 +97,7 @@ client.onInvalidLog(log => {
   vehicle?: object, // 整车数据, 具体数据内容见下原始日志格式说明
   montors?: [object], // 电机数据, 具体数据内容见下原始日志格式说明
   extreme?: object, // 极值数据, 具体数据内容见下原始日志格式说明
+  location?: object, // 车辆位置信息，用 GCJ－02坐标系 表示
   alarm?: [string], // 警报数据, 为警报码的数组
   customExt?: object, // 自定义数据，具体数据内容见下原始日志格式说明
   adas?: [object], // 补充协议数据， item.type === "ADAS" 具体数据内容见下原始日志格式说明
@@ -428,6 +429,8 @@ request body 格式说明：
 | current     | 电机控制器直线母线电流 | integer     | 0~20000    | 0.1A   |                                                                           |
 
 ##### 1.3.3 车辆位置数据 (type=LOCATION)
+
+原始日志中的位置坐标系使用的是 WGS－84 原始坐标系, 在解析成 record 之后会转变成 GCJ－02 坐标系
 
 ```js
 {
