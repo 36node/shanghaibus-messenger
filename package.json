@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "ajv": "^6.5.4",
+    "gcoord": "^0.2.0",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "node-rdkafka": "^2.4.2"

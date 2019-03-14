@@ -7,6 +7,7 @@ import { pick, uniq } from "lodash";
 import { ALARM_FLAGS } from "./constants";
 import moment from "moment";
 import { isNil, padStart } from "lodash";
+import gcoord from "gcoord";
 
 const ajv = new Ajv();
 
@@ -55,7 +56,11 @@ export function parseRecord(vin, body) {
         break;
       }
       case "LOCATION": {
-        const { lng, lat } = item;
+        const [lng, lat] = gcoord.transform(
+          [item.lng, item.lat],
+          gcoord.WGS84,
+          gcoord.GCJ02
+        );
         record.location = { lng, lat };
         break;
       }
