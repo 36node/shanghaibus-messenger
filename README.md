@@ -162,14 +162,14 @@ client.onInvalidLog(log => {
 
 request body 格式说明:
 
-| 数据表示内容           | 字段        | 数据类型        | 描述及要求                                                                          |
-| :--------------------- | :---------- | :-------------- | :---------------------------------------------------------------------------------- |
-| 数据采集时间           | at          | date ISO string | 数据采集的原始时间                                                                  |
-| 登入流水号             | sn          | integer         | 车载终端每登入一次登入流水号自动加 1，从 1 开始循环累加，最大值 65531，循环周期为天 |
-| ICCID                  | iccid       | string          | SIM 卡 ICCID 号（ICCID 应为终端从 SIM 卡获取的值，不应该人为填写或修改）            |
-| 可充电储能子系统数     | subSysNm    | integer         | 可充电储能子系统数 n，有效值范围：0~250                                             |
-| 可充电储能系统编码长度 | subSysNmLen | integer         | 可充电储能系统编码长度 m，有效值范围：0~50，“0”表示不上传该编码                     |
-| 可充电储能系统编码     | subSysSn    | [string]        | 可充电储能系统编码宜为终端从车辆获取的值                                            |
+| 字段        | 数据表示内容           | 数据类型        | 描述及要求                                                                          |
+| :---------- | :--------------------- | :-------------- | :---------------------------------------------------------------------------------- |
+| at          | 数据采集时间           | date ISO string | 数据采集的原始时间                                                                  |
+| sn          | 登入流水号             | integer         | 车载终端每登入一次登入流水号自动加 1，从 1 开始循环累加，最大值 65531，循环周期为天 |
+| iccid       | ICCID                  | string          | SIM 卡 ICCID 号（ICCID 应为终端从 SIM 卡获取的值，不应该人为填写或修改）            |
+| subSysNm    | 可充电储能子系统数     | integer         | 可充电储能子系统数 n，有效值范围：0~250                                             |
+| subSysNmLen | 可充电储能系统编码长度 | integer         | 可充电储能系统编码长度 m，有效值范围：0~50，“0”表示不上传该编码                     |
+| subSysSn    | 可充电储能系统编码     | [string]        | 可充电储能系统编码宜为终端从车辆获取的值                                            |
 
 #### 1.2 车辆登出 (command=VEHICLE_LOGOUT)
 
@@ -938,13 +938,22 @@ level 为 50 的日志，表示日志产生时发生的错误
 }
 ```
 
+## Mac OS High Sierra
+
+OpenSSL has been upgraded in High Sierra and homebrew does not overwrite default system libraries. That means when building node-rdkafka, because you are using openssl, you need to tell the linker where to find it:
+
+```sh
+export CPPFLAGS=-I/usr/local/opt/openssl/include
+export LDFLAGS=-L/usr/local/opt/openssl/lib
+```
+
 ## Contributing
 
-1.  Fork it!
-2.  Create your feature branch: `git checkout -b my-new-feature`
-3.  Commit your changes: `git commit -am 'Add some feature'`
-4.  Push to the branch: `git push origin my-new-feature`
-5.  Submit a pull request :D
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
 
 ## Author
 
