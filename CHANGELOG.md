@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/36node/shanghaibus-messenger/compare/v0.6.0...v0.7.0) (2019-09-12)
+
+
+### Bug Fixes
+
+* ci use node 10 ([d37ae3f](https://github.com/36node/shanghaibus-messenger/commit/d37ae3f))
+* elint warning ([1a85964](https://github.com/36node/shanghaibus-messenger/commit/1a85964))
+* github security warning ([c3b499d](https://github.com/36node/shanghaibus-messenger/commit/c3b499d))
+* node_kafka version ([6a74e1a](https://github.com/36node/shanghaibus-messenger/commit/6a74e1a))
+* remove clg ([982e713](https://github.com/36node/shanghaibus-messenger/commit/982e713))
+* try to update rdkafka version ([4984320](https://github.com/36node/shanghaibus-messenger/commit/4984320))
+
+
+### Features
+
+* add adas2,chargingBow,energy parse ([89e879c](https://github.com/36node/shanghaibus-messenger/commit/89e879c))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/36node/shanghaibus-messenger/compare/v0.5.8...v0.6.0) (2019-03-14)
 
