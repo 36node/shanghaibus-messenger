@@ -290,10 +290,6 @@ export function handleKafkaData(kafkaData) {
  */
 export function parseLog(logStr) {
   try {
-    if (logStr.indexOf("LZYTBGCW7J1035828") !== -1) {
-      console.log(logStr);
-    }
-
     const message = JSON.parse(logStr) || {};
     const { log } = message;
     if (!log && typeof log === "string") {
