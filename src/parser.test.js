@@ -519,6 +519,178 @@ const largeMaxLevelLog = makeKafkaLog(
   })
 );
 
+/**
+ * 1.6 版本协议新增数据项测试
+ * 包括 ADDAS2， CHARGING_BOW, ENERGY
+ */
+
+const recordFor1_6 = {
+  level: 30,
+  time: 1540902954337,
+  msg: "handle rdb data",
+  pid: 17,
+  hostname: "d35202af7c8b-shanghaibus-v0-32960-1",
+  session: "PBUh3XpG4yo",
+  seq: 36,
+  cost: 0,
+  origin:
+    "232302fe4c5a595442474357314a31303335383038010083120a1e0c23350101030100000000049c16aa271062010034f9000002010104464e204e204416a827100500073c1fa401dd26c70601310d0901f30d0401034101113f0703000000000000000110140602800030cece3727a2282528280142f63cf73cf63df73c054816aa2710186a0000000000000585000034f934f92846003e3b3d0627",
+  request: {
+    command: "REALTIME_REPORT",
+    flag: "COMMAND",
+    vin: "LZYTBGCW1J1035808",
+    encrypt: "NONE",
+    length: 131,
+    body: {
+      at: "2018-10-30T04:35:53.000Z",
+      items: [
+        {
+          type: "ENERGY",
+          length: 74,
+          defrostTotal: 0,
+          defrost: 0,
+          airTotal: 0,
+          air: 0,
+          motorTotal: 0,
+          motor: 0,
+          turnTotal: 0,
+          turn: 0,
+          compressorTotal: 0,
+          compressor: 0,
+          dcdcTotal: 0,
+          dcdc: 0,
+          heatingReverseTotal: 0,
+          heatingTotal: 0,
+          heatingReverse: 0,
+          heating: 0,
+          reverseTotal: 0,
+        },
+        {
+          type: "CHARGING_BOW",
+          datas: [
+            {
+              state: "RISED",
+              allowLeave: false,
+              systemState: "STANDBY",
+              wifi: "DISCONNECTED",
+              soc: 0,
+              charging: false,
+              voltage: 0,
+              current: 0,
+              capacity: 0,
+              duration: 0,
+              machineError: undefined,
+              bowError: undefined,
+              bmsError: undefined,
+              level: 0,
+              code: 0,
+              reserved1: 4294967295,
+              reserved2: 4294967295,
+            },
+          ],
+        },
+        {
+          type: "ADAS2",
+          datas: [
+            {
+              crashTime: 0,
+              accMistake: false,
+              f1Value: "0-0.5",
+              f2Value: "0-0.5",
+              f3Value: "0-0.5",
+              f4Value: "0-0.5",
+              b1Value: "0-0.5",
+              b2Value: "0-0.5",
+              b3Value: "0-0.5",
+              b4Value: "0-0.5",
+              l1Value: "0-0.5",
+              l2Value: "0-0.5",
+              l3Value: "0-0.5",
+              l4Value: "0-0.5",
+              r1Value: "0-0.5",
+              r2Value: "0-0.5",
+              r3Value: "0-0.5",
+              r4Value: "0-0.5",
+              p1Value: "0-0.5",
+              p2Value: "0-0.5",
+              p3Value: "0-0.5",
+              p4Value: "0-0.5",
+              p5Value: "0-0.5",
+              p6Value: "0-0.5",
+              p7Value: "0-0.5",
+              p8Value: "0-0.5",
+              preserve: "",
+              overSpeed: 0,
+              lateralDistance: 0,
+              verticalDistance: 0,
+              relativeVelocity: 0,
+              buzzerWarning: false,
+              wheelWarning: false,
+              cWarning: false,
+              rWarning: false,
+              lWarning: false,
+              pWarning: false,
+              cmcsLevel: 0,
+              cmcs: "NORMAL",
+              crbs: false,
+              reserved: 0,
+              obstacleType: "VOID",
+              fault: 0,
+            },
+            {
+              crashTime: 0,
+              accMistake: false,
+              f1Value: "0-0.5",
+              f2Value: "0-0.5",
+              f3Value: "0-0.5",
+              f4Value: "0-0.5",
+              b1Value: "0-0.5",
+              b2Value: "0-0.5",
+              b3Value: "0-0.5",
+              b4Value: "0-0.5",
+              l1Value: "0-0.5",
+              l2Value: "0-0.5",
+              l3Value: "0-0.5",
+              l4Value: "0-0.5",
+              r1Value: "0-0.5",
+              r2Value: "0-0.5",
+              r3Value: "0-0.5",
+              r4Value: "0-0.5",
+              p1Value: "0-0.5",
+              p2Value: "0-0.5",
+              p3Value: "0-0.5",
+              p4Value: "0-0.5",
+              p5Value: "0-0.5",
+              p6Value: "0-0.5",
+              p7Value: "0-0.5",
+              p8Value: "0-0.5",
+              preserve: "",
+              overSpeed: 0,
+              lateralDistance: 0,
+              verticalDistance: 0,
+              relativeVelocity: 0,
+              buzzerWarning: false,
+              wheelWarning: false,
+              cWarning: false,
+              rWarning: false,
+              lWarning: false,
+              pWarning: false,
+              cmcsLevel: 0,
+              cmcs: "NORMAL",
+              crbs: false,
+              reserved: 0,
+              obstacleType: "VOID",
+              fault: 0,
+            },
+          ],
+        },
+      ],
+    },
+  },
+  response: "232302014c5a595442474357314a31303335383038010006120a1e0c23355e",
+  v: 1,
+};
+
 function printLog(log) {
   console.log(JSON.stringify(log, null, 2));
 }
@@ -641,5 +813,36 @@ describe("Test parser", function() {
     const parsedLog = handleKafkaData(largeMaxLevelLog);
     expect(typeof parsedLog.payload.location.lng).toBe("number");
     expect(typeof parsedLog.payload.location.lat).toBe("number");
+  });
+
+  test("1.6 protocol", () => {
+    const kafkaMessage = makeKafkaLog(JSON.stringify(recordFor1_6));
+    const parsedLog = handleKafkaData(kafkaMessage);
+    const { payload } = parsedLog;
+
+    const { adas2, chargingBow, energy } = payload;
+
+    expect(adas2.length).toBe(2);
+    expect(chargingBow.length).toBe(1);
+    expect(energy).toMatchObject({
+      length: 74,
+      defrostTotal: 0,
+      defrost: 0,
+      airTotal: 0,
+      air: 0,
+      motorTotal: 0,
+      motor: 0,
+      turnTotal: 0,
+      turn: 0,
+      compressorTotal: 0,
+      compressor: 0,
+      dcdcTotal: 0,
+      dcdc: 0,
+      heatingReverseTotal: 0,
+      heatingTotal: 0,
+      heatingReverse: 0,
+      heating: 0,
+      reverseTotal: 0,
+    });
   });
 });
