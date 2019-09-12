@@ -1,5 +1,4 @@
-import { handleKafkaData, parseLog } from "./parser";
-import { padStart } from "lodash";
+import { handleKafkaData } from "./parser";
 const makeKafkaLog = msg => {
   return {
     value: Buffer.from(
