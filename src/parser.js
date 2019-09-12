@@ -189,7 +189,41 @@ export function parseRecord(vin, body) {
         record.adas = [...adas, ...datas];
         break;
       }
-
+      case "ADAS2": {
+        const { datas = [] } = item;
+        const { adas2 = [] } = record;
+        record.adas2 = [...adas2, ...datas];
+        break;
+      }
+      case "CHARGING_BOW": {
+        const { datas = [] } = item;
+        const { chargingBow = [] } = record;
+        record.chargingBow = [...chargingBow, ...datas];
+        break;
+      }
+      case "ENERGY": {
+        record.energy = pick(item, [
+          "length",
+          "defrostTotal",
+          "defrost",
+          "airTotal",
+          "air",
+          "motorTotal",
+          "motor",
+          "turnTotal",
+          "turn",
+          "compressorTotal",
+          "compressor",
+          "dcdcTotal",
+          "dcdc",
+          "heatingReverseTotal",
+          "heatingTotal",
+          "heatingReverse",
+          "heating",
+          "reverseTotal",
+        ]);
+        break;
+      }
       default:
         break;
     }
