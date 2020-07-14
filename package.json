@@ -70,7 +70,7 @@
     "lint-staged": "^7.2.0",
     "microbundle": "^0.6.0",
     "prettier": "^1.13.7",
-    "standard-version": "^4.4.0"
+    "standard-version": "^8.0.1"
   },
   "gitHead": "49f89ff78d144be08607e43fbe8aa9e01f16e89d"
 }
